@@ -15,6 +15,7 @@ public class DocumentSearchingController(
     [HttpGet]
     [Route("indexes/{indexKey}/docs/$count")]
     [Route("indexes/({indexKey})/docs/$count")]
+    [Route("indexes('{indexKey}')/docs/$count")]
     public async Task<IActionResult> GetDocumentCount(string indexKey)
     {
         var index = await searchIndexRepository.Get(indexKey);
@@ -32,6 +33,7 @@ public class DocumentSearchingController(
     [HttpGet]
     [Route("indexes/{indexKey}/docs/{key}")]
     [Route("indexes/({indexKey})/docs/({key})")]
+    [Route("indexes('{indexKey}')/docs('{key}')")]
     [EnableQuery]
     public async Task<IActionResult> GetDocument(string indexKey, string key)
     {
@@ -54,7 +56,8 @@ public class DocumentSearchingController(
 
     [HttpGet]
     [Route("indexes/{indexKey}/docs")]
-    public async Task<IActionResult> SearchGet(string indexKey, 
+    [Route("indexes('{indexKey}')/docs")]
+    public async Task<IActionResult> SearchGet(string indexKey,
         [FromQuery(Name = "$filter")] string? filter,
         [FromQuery(Name = "$count")] bool? count,
         [FromQuery(Name = "$orderby")] string? orderby,
